@@ -1,0 +1,9 @@
+To get started, you need:
+	1. Python
+	2. All the nessecary modules
+	3. an internet connection.
+To install the modules, on a terminal, run:
+	1. pip3 install webbrowser 
+	2. pip3 install wikipedia
+# If you have an error such as 'externally managed environment', add "--break-system-pacakges" at the end of your command.
+You can edit the name from "alfred' to something else if you want to.
