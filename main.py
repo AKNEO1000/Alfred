@@ -2,15 +2,16 @@ import webbrowser
 import random
 import sys
 
-# Try to import the wikipedia library.
-# If it's not installed, provide instructions to the user.
+# If the wikipedia library is not installed, system warns user.
 try:
     import wikipedia
 except ImportError:
     print("The 'wikipedia' library is not installed.")
     print("Please install it using: pip install wikipedia")
     print("You can still use other features of the chatbot.")
-    wikipedia = None # Set wikipedia to None so we can check for it later
+    wikipedia = None 
+
+name = "Alfred" # user can change this later
 
 def open_website(url):
     """Opens a given URL in the default web browser."""
@@ -54,12 +55,13 @@ def tell_joke():
         "Did you hear about the mathematician who was afraid of negative numbers? He'd stop at nothing to avoid them.",
         "Why did the scarecrow win an award? Because he was outstanding in his field!",
         "I told my wife she was drawing her eyebrows too high. She looked surprised.",
-        "What do you call a fake noodle? An impasta!"
+        "What do you call a fake noodle? An impasta!",
+	"Why was the frog late to work? because his car got toad."
     ]
     print(random.choice(jokes))
 
 class TodoList:
-    """Manages a simple to-do list."""
+    # simple to-do-list
     def __init__(self):
         self.tasks = []
         self.next_id = 1
@@ -71,7 +73,7 @@ class TodoList:
         self.next_id += 1
 
     def view_tasks(self):
-        """Displays all tasks in the list."""
+        # to view a task
         if not self.tasks:
             print("Your to-do list is empty!")
             return
@@ -83,7 +85,7 @@ class TodoList:
         print("-----------------------\n")
 
     def complete_task(self, task_id):
-        """Marks a task as completed."""
+        # to mark a task as complete
         try:
             task_id = int(task_id)
             found = False
@@ -94,7 +96,7 @@ class TodoList:
                     else:
                         t["completed"] = True
                         print(f"Task ID {task_id} '{t['task']}' marked as complete.")
-                    found = True
+                        found = True
                     break
             if not found:
                 print(f"Task with ID {task_id} not found.")
@@ -102,7 +104,7 @@ class TodoList:
             print("Invalid task ID. Please enter a number.")
 
     def delete_task(self, task_id):
-        """Deletes a task from the list."""
+        # deletes a task
         try:
             task_id = int(task_id)
             initial_len = len(self.tasks)
@@ -115,40 +117,40 @@ class TodoList:
             print("Invalid task ID. Please enter a number.")
 
 
-def display_help():
-    """Displays available commands."""
-    print("\n--- Chatbot Commands ---")
-    print("  open <URL>           - Opens the specified URL (e.g., 'open https://www.google.com')")
-    print("  google <query>       - Searches Google for the given query (e.g., 'google weather today')")
-    print("  wikipedia <query>    - Searches Wikipedia for the given query (e.g., 'wikipedia Eiffel Tower')")
-    print("  joke                 - Tells a random joke")
-    print("  todo add <task>      - Adds a task to your to-do list (e.g., 'todo add Buy groceries')")
-    print("  todo view            - Shows your current to-do list")
-    print("  todo complete <ID>   - Marks a task as complete (e.g., 'todo complete 1')")
-    print("  todo delete <ID>     - Deletes a task from the list (e.g., 'todo delete 2')")
-    print("  help                 - Displays this help message")
-    print("  exit / quit          - Exits the chatbot")
-    print("------------------------\n")
+def help():
+	help_message = f"""Hello, I am {name}, 
+I can do a variety of tasks, such as:
 
+1. Open websites -> for example, type: open youtube
+2. Google for things -> for example, type : google The dark knight
+3. Search on Wikipedia ->for example, type: wikipedia Hayden Christensen
+4. Tell a joke -> for example, type: tell me a joke
+5. Manage your to-do-list-> Here are the commands to:
+				Add a task to your list -> todo add "task", each task has an ID number.
+				View your tasks -> todo view
+				Remove a task -> todo delete "ID number" 
+				Mark a task as complete -> todo complete 'task ID number'
+To exit, press: CTRL + C
+ """
+	print(help_message)
 def main():
-    """Main function to run the chatbot."""
-    print("Hello! I'm your simple Python chatbot. Type 'help' for commands.")
+    # Main function for the chatbot.
+    print(f"Hello! I'm {name}. Type 'help' for commands. To exit, press CTRL + C")
     todo_list = TodoList()
 
     while True:
         user_input = input("You: ").strip().lower()
 
-        if user_input in ["exit", "quit"]:
-            print("Goodbye!")
-            break
-        elif user_input == "help":
-            display_help()
+        if "help" in user_input:
+            help()
+
+         # browsing, wikipedia: (online)
         elif user_input.startswith("open "):
             url = user_input[len("open "):].strip()
             if url:
                 # Add http:// if not present for basic URL validity
                 if not url.startswith(("http://", "https://")):
-                    url = "http://" + url
+                    url = "http://" + url + ".com"
                 open_website(url)
             else:
                 print("Please provide a URL to open. Example: 'open https://www.example.com'")
@@ -164,8 +166,15 @@ def main():
                 wikipedia_search(query)
             else:
                 print("Please provide a query for Wikipedia search. Example: 'wikipedia dogs'")
-        elif user_input == "joke":
+
+	# responses:
+        elif "joke" in user_input:
             tell_joke()
+
+
+
+
+	# to-do-list:
         elif user_input.startswith("todo add "):
             task = user_input[len("todo add "):].strip()
             if task:
@@ -186,8 +195,9 @@ def main():
                 todo_list.delete_task(task_id_str)
             else:
                 print("Please provide the ID of the task to delete. Example: 'todo delete 2'")
+
         else:
             print("I didn't understand that command. Type 'help' to see what I can do.")
-
+        
 if __name__ == "__main__":
     main()
