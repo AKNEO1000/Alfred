@@ -167,12 +167,6 @@ def main():
             else:
                 print("Please provide a query for Wikipedia search. Example: 'wikipedia dogs'")
 
-	# responses:
-        elif "joke" in user_input:
-            tell_joke()
-
-
-
 
 	# to-do-list:
         elif user_input.startswith("todo add "):
@@ -195,6 +189,18 @@ def main():
                 todo_list.delete_task(task_id_str)
             else:
                 print("Please provide the ID of the task to delete. Example: 'todo delete 2'")
+         # responses:
+        elif "joke" in user_input:
+            tell_joke()
+        elif "who are you" in user_input:
+          print(f"I am {name}, your personal assistant")
+        elif any(phrase in user_input for phrase in ["how are you", "are you good", "are you ok"]):
+            status_responses = ['I\'m doing wonderful!', 'I\'m doing great, I\'m sure you are too!', "I'm doing fantastic!", 'I\'m always trying to do better!', 'Glad you asked, I\'m doing great!']
+            print(random.choice(status_responses))
+        elif any(greeting in user_input for greeting in ["hi", "hello", "hey"]):
+            hello_responses = ["Hi!", "Hello!", "Hey!"]
+            print(random.choice(hello_responses))
+
 
         else:
             print("I didn't understand that command. Type 'help' to see what I can do.")
